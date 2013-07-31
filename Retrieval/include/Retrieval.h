@@ -83,10 +83,6 @@ private:
 
 	void initializeSemantic();
 
-	double retrievalScore( const InputArray& queryFea,
-		const InputArray& candidateFea,
-		const InputArray& codebook );
-
 	vector<RetrievalItem> retrieve( const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabase& database );
 	vector<RetrievalItem> parallelRetrieve( const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabase& database );
 

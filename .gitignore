@@ -12,5 +12,8 @@
 *.la
 *.a
 
+# Python Compiled Fils
+*.pyc
+
 # Everything under build folder
 build/*.*

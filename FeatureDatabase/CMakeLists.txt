@@ -22,6 +22,7 @@ if (BUILD_PYTHON_WRAPPER)
 	#add_library(python-FeatureDatabase SHARED ${src_dir}/python-FeatureDatabase.cpp)
 	target_link_libraries(python-FeatureDatabase FeatureDatabase FeatureItem IOUtils MatrixUtils SIFT ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_LIBS} )
 	set_target_properties(python-FeatureDatabase PROPERTIES OUTPUT_NAME "FeatureDatabase")
+	install (TARGETS python-FeatureDatabase DESTINATION /usr/lib/python2.7/)
 endif()
 
 

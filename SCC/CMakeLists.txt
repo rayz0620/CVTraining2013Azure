@@ -15,6 +15,7 @@ INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS} ${OPENCV_INCLUD
 add_library(SCC STATIC ${src_dir}/SCC.cpp) 
 if (BUILD_PYTHON_WRAPPER)
 	PYTHON_ADD_MODULE(python-SCC ${src_dir}/python-SCC.cpp)
-	TARGET_LINK_LIBRARIES(python-SCC SCC IOUtils ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_LIBS})
+	TARGET_LINK_LIBRARIES(python-SCC SCC SparseCoding MatrixUtils IOUtils nlopt ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_LIBS})
 	set_target_properties(python-SCC PROPERTIES OUTPUT_NAME "SCC")
+	install (TARGETS python-SCC DESTINATION /usr/lib/python2.7/)
 endif()

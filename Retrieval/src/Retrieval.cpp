@@ -96,18 +96,6 @@ void Retrival::loadDefaultConfig()
 
 }
 
-double Retrival::retrievalScore( const InputArray& queryFea, const InputArray& candidateFea, const InputArray& codebook )
-{
-	Mat qF = queryFea.getMat();
-	Mat cF = candidateFea.getMat();
-	Mat cb = codebook.getMat();
-	//Debug
-	Mat cbi = cb.inv(DECOMP_SVD);
-	Mat b = cbi * cF;
-	double score = norm(cbi * cF - qF);
-	return score;
-}
-
 vector<RetrievalItem> Retrival::retrieve( const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabase& database )
 {
 	vector<RetrievalItem> retrievalList;

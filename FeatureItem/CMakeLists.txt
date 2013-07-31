@@ -17,5 +17,6 @@ if (BUILD_PYTHON_WRAPPER)
 	PYTHON_ADD_MODULE(python-FeatureItem ${src_dir}/python-FeatureItem.cpp)
 	TARGET_LINK_LIBRARIES(python-FeatureItem FeatureItem IOUtils  ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_LIBS})
 	set_target_properties(python-FeatureItem PROPERTIES OUTPUT_NAME "FeatureItem")
+	install (TARGETS python-FeatureItem DESTINATION /usr/lib/python2.7/)
 endif()
 

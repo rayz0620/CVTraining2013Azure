@@ -75,6 +75,18 @@ vector<Mat> SCC::semantic_neighbours( const Mat qfea, const Mat f, const Mat W, 
 	return ret;
 }
 
+double SCC::retrievalScore( const InputArray& queryFea, const InputArray& candidateFea, const InputArray& codebook )
+{
+	Mat qF = queryFea.getMat();
+	Mat cF = candidateFea.getMat();
+	Mat cb = codebook.getMat();
+	//Debug
+	Mat cbi = cb.inv(DECOMP_SVD);
+	Mat b = cbi * cF;
+	double score = norm(cbi * cF - qF);
+	return score;
+}
+
 // Mat L1QP_FeatureSign_Set_Yang( double lambda, const Mat& A, const Mat& b )
 // {
 // 	Mat a;

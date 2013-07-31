@@ -17,5 +17,6 @@ if (BUILD_PYTHON_WRAPPER)
 	PYTHON_ADD_MODULE(python-SparseCoder ${src_dir}/python-SparseCoder.cpp)
 	TARGET_LINK_LIBRARIES(python-SparseCoder SparseCoder SparseCoding MatrixUtils IOUtils ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_LIBS} )
 	set_target_properties(python-SparseCoder PROPERTIES OUTPUT_NAME "LLCoder")
+	install (TARGETS python-SparseCoder DESTINATION /usr/lib/python2.7/)
 endif()
 
