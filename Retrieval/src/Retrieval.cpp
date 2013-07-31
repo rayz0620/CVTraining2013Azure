@@ -54,7 +54,7 @@ void Retrival::RDb( RetrievalDatabase* val )
 
 }
 
-double Retrival::TestSingle( const RetrivalDatabaseItem& query  )
+double Retrival::TestSingle( const RetrievalDatabaseItem& query  )
 {
 	double currentPrecision = 0.0;
 	int scope = 0;
@@ -150,7 +150,7 @@ vector<RetrievalItem> Retrival::parallelRetrieve( const InputArray& queryFea, co
 }
 
 
-void Retrival::parallelRetrieveScoreThread( const InputArray& queryFea, const InputArray& codebook, const RetrivalDatabaseItem db_it, vector<RetrievalItem> *retrievalList )
+void Retrival::parallelRetrieveScoreThread( const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabaseItem db_it, vector<RetrievalItem> *retrievalList )
 {
 	RetrievalItem item;
 	item.id = db_it.id;
@@ -162,7 +162,7 @@ void Retrival::parallelRetrieveScoreThread( const InputArray& queryFea, const In
 	retrieval_list_mutex.unlock();
 }
 
-void Retrival::parallelRetrieveThread( RetrivalDatabaseItem query, double* ret_precision )
+void Retrival::parallelRetrieveThread( RetrievalDatabaseItem query, double* ret_precision )
 {
 	double result = TestSingle(query);
 	retrieval_precision_mutex.lock();

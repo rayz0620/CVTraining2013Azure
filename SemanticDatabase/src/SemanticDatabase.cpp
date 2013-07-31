@@ -75,24 +75,24 @@ Mat SemanticDatabase::getRelationMatrix()
 	return relationMatrix;
 }
 
-void SemanticDatabase::saveSemanticInfo(path destPath)
+void SemanticDatabase::saveSemanticInfo(string destPath)
 	{
-        path relPath = destPath;
+        path relPath(destPath);
         relPath /= "relation.gz";
         saveMatrixToYML(relPath, relationMatrix);
 
-        path feaPath = destPath;
+        path feaPath(destPath);
         feaPath /= "auxfeat.gz";
         saveMatrixToYML(feaPath, featureMatrix);
 	}
 
-void SemanticDatabase::loadSemanticInfo(path srcPath)
+void SemanticDatabase::loadSemanticInfo(string srcPath)
 {
-    path relPath = srcPath;
+    path relPath(srcPath);
     relPath /= "relation.gz";
     relationMatrix = readMatrixFromYML(relPath);
 
-    path feaPath = srcPath;
+    path feaPath(srcPath);
     feaPath /= "relation.gz";
     featureMatrix = readMatrixFromYML(feaPath);
 }

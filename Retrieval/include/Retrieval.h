@@ -1,7 +1,7 @@
 //#include "retrieval.h"
 #include <boost/thread.hpp>
 #include <boost/threadpool.hpp>
-#include "RetrievalDataBase.h"
+#include "RetrievalDatabase.h"
 #include "SemanticDatabase.h"
 
 #define RETRIVAL_COUNT 50
@@ -25,7 +25,7 @@ public:
 	// Functionality Methods
 
 	// Testing Methods
-	double TestSingle(const RetrivalDatabaseItem& query);
+	double TestSingle(const RetrievalDatabaseItem& query);
 	double TestAll(const RetrievalDatabase& query);
 	double TestGiven(const string& id);
 	double TestN(const RetrievalDatabase& query , int n = 1, int begin = 0);
@@ -90,8 +90,8 @@ private:
 	vector<RetrievalItem> retrieve( const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabase& database );
 	vector<RetrievalItem> parallelRetrieve( const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabase& database );
 
-	void parallelRetrieveScoreThread(const InputArray& queryFea, const InputArray& codebook, const RetrivalDatabaseItem db_it, vector<RetrievalItem> *retrievalList);
-	void parallelRetrieveThread(RetrivalDatabaseItem query, double* ret_precision);
+	void parallelRetrieveScoreThread(const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabaseItem db_it, vector<RetrievalItem> *retrievalList);
+	void parallelRetrieveThread(RetrievalDatabaseItem query, double* ret_precision);
 	void loadDefaultConfig();
 
 	boost::mutex retrieval_list_mutex;
