@@ -1,0 +1,33 @@
+# depslib dependency file v1.0
+1374826056 source:/home/rayz/Projects/LearnDictionary/main.cpp
+	"SparseCoder.h"
+	"IO.h"
+
+1374807210 /home/rayz/Projects/include/SparseCoder.h
+	<opencv2/opencv.hpp>
+	"FeatureItem.h"
+	<string>
+	<vector>
+	"sparseCoding.h"
+
+1374801992 /home/rayz/Projects/include/FeatureItem.h
+	<opencv2/opencv.hpp>
+	<string>
+
+1374758911 /home/rayz/Projects/include/sparseCoding.h
+	<opencv2/opencv.hpp>
+	<opencv2/core/core.hpp>
+	<nlopt.hpp>
+	"Util.h"
+
+1374801288 /home/rayz/Projects/include/Util.h
+	<opencv2/opencv.hpp>
+	<vector>
+
+1374803454 /home/rayz/Projects/include/IO.h
+	<opencv2/opencv.hpp>
+	<map>
+	<string>
+	<boost/filesystem.hpp>
+	<iostream>
+

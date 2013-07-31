@@ -1,0 +1,10 @@
+project(libMatrixUtils)
+cmake_minimum_required(VERSION 2.8)
+
+add_definitions(-std=c++11)
+add_definitions(-fPIC)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+set(src_dir src)
+include_directories(include)
+include_directories(../include)
+add_library(MatrixUtils STATIC ${src_dir}/Util.cpp) 

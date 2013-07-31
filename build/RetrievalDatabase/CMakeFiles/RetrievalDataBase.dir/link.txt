@@ -1,0 +1,2 @@
+/usr/bin/ar cr lib/libRetrievalDataBase.a  CMakeFiles/RetrievalDataBase.dir/src/RetrievalDataBase.cpp.o
+/usr/bin/ranlib lib/libRetrievalDataBase.a

@@ -1,0 +1,10 @@
+project(libIOUtils)
+cmake_minimum_required(VERSION 2.8)
+
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+set(src_dir src)
+add_definitions(-std=c++11)
+add_definitions(-fPIC)
+include_directories(include)
+include_directories(../include)
+add_library(IOUtils STATIC ${src_dir}/IO.cpp) 

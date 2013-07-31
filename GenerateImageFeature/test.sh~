@@ -1,0 +1,2 @@
+./bin/Release/GenerateImageFeature feaconfig.yml ~/dataset/subimage ~/dataset/subfeat
+./bin/Release/GenerateImageFeature feaconfig.yml ~/dataset/testimage ~/dataset/testfeat

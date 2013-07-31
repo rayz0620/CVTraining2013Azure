@@ -1,0 +1,2 @@
+/home/rayz/projectsc/FeatureDatabase/build/CMakeFiles/libFeatureDatabase.dir
+/home/rayz/projectsc/FeatureDatabase/build/CMakeFiles/python-FeatureDatabase.dir

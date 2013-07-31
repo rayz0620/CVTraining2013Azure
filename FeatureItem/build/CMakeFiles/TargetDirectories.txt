@@ -1,0 +1,2 @@
+/home/rayz/projectsc/FeatureItem/build/CMakeFiles/FeatureItem.dir
+/home/rayz/projectsc/FeatureItem/build/CMakeFiles/python-FeatureItem.dir

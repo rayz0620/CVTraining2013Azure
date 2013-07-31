@@ -1,0 +1,2 @@
+/home/rayz/projectsc/SIFT/build/CMakeFiles/SIFT.dir
+/home/rayz/projectsc/SIFT/build/CMakeFiles/sift.dir

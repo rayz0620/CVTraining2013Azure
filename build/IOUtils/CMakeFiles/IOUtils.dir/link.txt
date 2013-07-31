@@ -1,0 +1,2 @@
+/usr/bin/ar cr lib/libIOUtils.a  CMakeFiles/IOUtils.dir/src/IO.cpp.o
+/usr/bin/ranlib lib/libIOUtils.a
