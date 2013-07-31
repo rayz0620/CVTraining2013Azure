@@ -1,2 +1,0 @@
-/usr/bin/ar cr lib/libSCC.a  CMakeFiles/SCC.dir/src/SCC.cpp.o
-/usr/bin/ranlib lib/libSCC.a

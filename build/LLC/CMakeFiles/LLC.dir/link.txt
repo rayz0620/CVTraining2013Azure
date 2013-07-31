@@ -1,2 +1,0 @@
-/usr/bin/ar cr lib/libLLC.a  CMakeFiles/LLC.dir/src/LLC.cpp.o CMakeFiles/LLC.dir/src/sum.cpp.o
-/usr/bin/ranlib lib/libLLC.a
