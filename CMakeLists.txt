@@ -1,8 +1,7 @@
 project(SCCASDF)
 cmake_minimum_required(VERSION 2.8)
 
-set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c++11")
+add_subdirectory(GenerateImageFeature)
 add_subdirectory(FeatureDatabase)
 add_subdirectory(FeatureItem)
 add_subdirectory(IOUtils)

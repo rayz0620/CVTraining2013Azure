@@ -38,7 +38,7 @@ FeatureDatabase::FeatureDatabase(const FeatureDatabase& other)
 	threads = other.threads;
 }
 
-bool FeatureDatabase::saveSingle( const FeatureItem& item, path targetPath, const string& extension /*= ".yml" */ )
+bool FeatureDatabase::saveSingle( const FeatureItem& item, string targetPath, const string extension /*= ".yml" */ )
 {
 	if (exists(targetPath) && !is_directory(targetPath))
 		return false;
@@ -57,14 +57,15 @@ bool FeatureDatabase::saveSingle( const FeatureItem& item, path targetPath, cons
 }
 
 
-bool FeatureDatabase::generateDatabase( const path imgPath, const path featPath )
+bool FeatureDatabase::generateDatabase( const string imgPath, const string featPath )
 {
-	printf("Generating Feature Database from %s\n", imgPath.parent_path().c_str());
+	path imgP(imgPath);
+	printf("Generating Feature Database from %s\n", imgP.parent_path().c_str());
 	FileStorage fs;
 	int fileCount = 0;
-	if (exists(imgPath))
+	if (exists(imgP))
 	{
-		auto it = recursive_directory_iterator(imgPath);
+		auto it = recursive_directory_iterator(imgP);
 		auto end_it = recursive_directory_iterator();
 		if (isParallel)
 		{
@@ -77,7 +78,7 @@ bool FeatureDatabase::generateDatabase( const path imgPath, const path featPath 
 					file.extension() == ".png" )
 				{
 					pool.schedule(boost::bind(
-						&FeatureDatabase::generateSingleDatabaseItem, this, file, featPath));
+						&FeatureDatabase::generateSingleDatabaseItem, this, file.string(), featPath));
 					fileCount++;
 				}
 				pool.wait(threads);
@@ -93,7 +94,7 @@ bool FeatureDatabase::generateDatabase( const path imgPath, const path featPath 
 					file.extension() == ".bmp" ||
 					file.extension() == ".png" )
 				{
-					generateSingleDatabaseItem(file, featPath);
+					generateSingleDatabaseItem(file.string(), featPath);
 					fileCount++;
 				}
 			}
@@ -110,10 +111,12 @@ FeatureDatabase::FeatureDatabase()
 
 }
 
-void FeatureDatabase::generateSingleDatabaseItem( path imgPath, path featPath )
+void FeatureDatabase::generateSingleDatabaseItem( string imgPath, string featPath )
 {
-	FeatureItem item = CalculateSiftDescriptor(imgPath.string(), gridSpacing, patchSize, maxImSize, nrml_threshold);
-	item.id = imgPath.stem().string();
+	path imgP(imgPath);
+	path featP(featPath);
+	FeatureItem item = CalculateSiftDescriptor(imgPath, gridSpacing, patchSize, maxImSize, nrml_threshold);
+	item.id = imgP.stem().string();
 // 	dbIOMutex.lock_upgrade();
 // 	operator[](imgPath.basename()) = item;
 // 	dbIOMutex.unlock_upgrade();
@@ -121,9 +124,9 @@ void FeatureDatabase::generateSingleDatabaseItem( path imgPath, path featPath )
 	saveSingle(item, featPath);
 }
 
-void FeatureDatabase::saveConfig( const path filename )
+void FeatureDatabase::saveConfig( const string filename )
 {
-	FileStorage fs(filename.string(), FileStorage::WRITE);
+	FileStorage fs(filename, FileStorage::WRITE);
 	if (fs.isOpened())
 	{
 		fs << "gridSpacing" << gridSpacing;
@@ -135,9 +138,9 @@ void FeatureDatabase::saveConfig( const path filename )
 	}
 }
 
-void FeatureDatabase::loadConfig( const path filename )
+void FeatureDatabase::loadConfig( const string filename )
 {
-	FileStorage fs(filename.string(), FileStorage::READ);
+	FileStorage fs(filename, FileStorage::READ);
 	if (fs.isOpened())
 	{
 		fs["gridSpacing"] >> gridSpacing;
@@ -149,18 +152,20 @@ void FeatureDatabase::loadConfig( const path filename )
 	}
 }
 
-bool FeatureDatabase::randomDictionary( const path featPath, const path dictPath, float percentage )
+bool FeatureDatabase::randomDictionary( const string featPath, const string dictPath, float percentage )
 {
-	printf("Generating dictionary from %s\n", featPath.parent_path().c_str());
+	path featP(featPath);
+	path dictP(dictPath);
+	printf("Generating dictionary from %s\n", featP.parent_path().c_str());
 	FileStorage fs;
 	int fileCount = 0;
 	int featLength = 0;
 	int matType = CV_32F;
 
 	Mat allFeature;
-	if (exists(featPath))
+	if (exists(featP))
 	{
-		auto it = recursive_directory_iterator(featPath);
+		auto it = recursive_directory_iterator(featP);
 		auto end_it = recursive_directory_iterator();
 
 		// Count number of features
@@ -185,7 +190,7 @@ bool FeatureDatabase::randomDictionary( const path featPath, const path dictPath
 		// Load and combine features
 		allFeature.create(0, featLength, matType);
 
-		it = recursive_directory_iterator(featPath);
+		it = recursive_directory_iterator(featP);
 		for (; it != end_it; it++)
 		{
 			path file = it->path();
@@ -207,7 +212,7 @@ bool FeatureDatabase::randomDictionary( const path featPath, const path dictPath
 		}
 		allFeature = allFeature.t();
 		shuffleCol(allFeature);
-		fs.open(dictPath.string(), FileStorage::WRITE);
+		fs.open(dictP.string(), FileStorage::WRITE);
 		fs << "mat" << allFeature;
 		printf("Randomly chose %d features as initial dictionary\n", allFeature.cols);
 		return true;

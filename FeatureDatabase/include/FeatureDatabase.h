@@ -12,13 +12,13 @@ class FeatureDatabase{
 public:
 	FeatureDatabase();
 	FeatureDatabase(const FeatureDatabase& other);
-	bool generateDatabase(const path imgPath, const path featPath);
-	void generateSingleDatabaseItem(path imgPath, path featPath);
+	bool generateDatabase(const string imgPath, const string featPath);
+	void generateSingleDatabaseItem(string imgPath, string featPath);
 /*	bool saveAll( path targetPath, const string& extension = ".yml" );*/
-	bool randomDictionary(const path featPath, const path dictPath, float percentage);
+	bool randomDictionary(const string featPath, const string dictPath, float percentage);
 
-	void saveConfig(const path filename);
-	void loadConfig(const path filename);
+	void saveConfig(const string filename);
+	void loadConfig(const string filename);
 
 	int gridSpacing;
 	int patchSize;
@@ -30,5 +30,5 @@ private:
 	boost::shared_mutex dbIOMutex;
 	boost::shared_mutex dictIOMutex;
 
-	bool saveSingle(const FeatureItem& item, path targetPath, const string& extension = ".gz" );
+	bool saveSingle(const FeatureItem& item, string targetPath, const string extension = ".gz" );
 };

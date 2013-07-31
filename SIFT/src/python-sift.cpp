@@ -6,7 +6,7 @@
 using namespace boost::python;
 using namespace SIFT;
 
-BOOST_PYTHON_MODULE(sift)
+BOOST_PYTHON_MODULE(SIFT)
 {
     using namespace boost::python;
     def("CalculateSiftDescriptor", CalculateSiftDescriptor);

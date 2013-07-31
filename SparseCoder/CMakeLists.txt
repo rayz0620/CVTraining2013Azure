@@ -15,7 +15,7 @@ include_directories(../include)
 add_library(SparseCoder STATIC ${src_dir}/SparseCoder.cpp) 
 if (BUILD_PYTHON_WRAPPER)
 	PYTHON_ADD_MODULE(python-SparseCoder ${src_dir}/python-SparseCoder.cpp)
-	TARGET_LINK_LIBRARIES(python-SparseCoder ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_LIBS} SparseCoder SparseCoding)
+	TARGET_LINK_LIBRARIES(python-SparseCoder SparseCoder SparseCoding MatrixUtils IOUtils ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_LIBS} )
 	set_target_properties(python-SparseCoder PROPERTIES OUTPUT_NAME "LLCoder")
 endif()
 
