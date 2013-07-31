@@ -1,1 +1,0 @@
-/home/rayz/projectsc/Python-SIFT/build/CMakeFiles/sift.dir

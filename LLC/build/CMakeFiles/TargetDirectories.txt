@@ -1,2 +1,0 @@
-/home/rayz/projectsc/LLC/build/CMakeFiles/LLC.dir
-/home/rayz/projectsc/LLC/build/CMakeFiles/python-LLCoder.dir
