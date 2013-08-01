@@ -14,6 +14,7 @@ public:
 	FeatureDatabase(const FeatureDatabase& other);
 	bool generateDatabase(const string imgPath, const string featPath);
 	void generateSingleDatabaseItem(string imgPath, string featPath);
+	FeatureItem calculateItem(Mat img);
 /*	bool saveAll( path targetPath, const string& extension = ".yml" );*/
 	bool randomDictionary(const string featPath, const string dictPath, float percentage);
 
@@ -27,8 +28,6 @@ public:
 	bool isParallel;
 	int threads;
 private:
-	boost::shared_mutex dbIOMutex;
-	boost::shared_mutex dictIOMutex;
 
 	bool saveSingle(const FeatureItem& item, string targetPath, const string extension = ".gz" );
 };

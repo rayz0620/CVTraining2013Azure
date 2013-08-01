@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 
 FIND_PACKAGE(PythonInterp)
 FIND_PACKAGE(PythonLibs)
-FIND_PACKAGE(Boost COMPONENTS python thread filesystem REQUIRED)
+FIND_PACKAGE(Boost COMPONENTS python thread filesystem system REQUIRED)
 FIND_PACKAGE(OpenCV REQUIRED)
 add_definitions(-std=c++11)
 add_definitions(-fPIC)

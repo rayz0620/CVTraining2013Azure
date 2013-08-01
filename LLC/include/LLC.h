@@ -11,6 +11,7 @@ namespace LLC{
 	public:
 		LLCoder();
 		bool generateLLCDatabase(path srcPath, path destPath);
+		Mat calculateLLC( FeatureItem feaSet);
 		Mat LLC_pooling( FeatureItem feaSet,Mat B,Mat pyramid,int knn );
 		//check LLC_coding_appr OK
 		Mat LLC_coding_appr(Mat B,Mat X,int knn);

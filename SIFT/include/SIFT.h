@@ -47,6 +47,6 @@ namespace SIFT{
 	Mat sp_normalize_sift_len(Mat sift_arr);
 
 	Mat sp_normalize_sift_arr(Mat sift_arr,float threshold);
-
-	FeatureItem CalculateSiftDescriptor(const string& filename, int gridSpacing, int patchSize, int maxImSize, float nrml_threshold);
+	FeatureItem CalculateSiftDescriptor(Mat Img, int gridSpacing, int patchSize, int maxImSize, float nrml_threshold);
+	FeatureItem CalculateSiftDescriptorFromFile(const string& filename, int gridSpacing, int patchSize, int maxImSize, float nrml_threshold);
 }

@@ -7,6 +7,11 @@
 using namespace IOUtils;
 using namespace cv;
 
+cv::Mat LLC::LLCoder::calculateLLC( FeatureItem feaSet)
+{
+	return LLC_pooling(feaSet, B, pyramid, knn);
+}
+
 cv::Mat LLC::LLCoder::LLC_pooling( FeatureItem feaSet,Mat B,Mat pyramid,int knn )
 {
 	double dSize = B.size().width;

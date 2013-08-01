@@ -115,13 +115,18 @@ void FeatureDatabase::generateSingleDatabaseItem( string imgPath, string featPat
 {
 	path imgP(imgPath);
 	path featP(featPath);
-	FeatureItem item = CalculateSiftDescriptor(imgPath, gridSpacing, patchSize, maxImSize, nrml_threshold);
+	FeatureItem item = CalculateSiftDescriptorFromFile(imgPath, gridSpacing, patchSize, maxImSize, nrml_threshold);
 	item.id = imgP.stem().string();
 // 	dbIOMutex.lock_upgrade();
 // 	operator[](imgPath.basename()) = item;
 // 	dbIOMutex.unlock_upgrade();
 
 	saveSingle(item, featPath);
+}
+
+FeatureItem FeatureDatabase::calculateItem(Mat img)
+{
+	return CalculateSiftDescriptor(img, gridSpacing, patchSize, maxImSize, nrml_threshold);
 }
 
 void FeatureDatabase::saveConfig( const string filename )

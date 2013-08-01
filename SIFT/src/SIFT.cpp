@@ -715,7 +715,7 @@ cv::Mat SIFT::sp_normalize_sift_arr( Mat sift_arr,float threshold )
 	return sift_arr;
 }
 
-FeatureItem SIFT::CalculateSiftDescriptor( const string& filename, int gridSpacing, int patchSize, int maxImSize, float nrml_threshold )
+FeatureItem SIFT::CalculateSiftDescriptorFromFile( const string& filename, int gridSpacing, int patchSize, int maxImSize, float nrml_threshold )
 {
 	//Mat img = imread("009_0002.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 
@@ -733,6 +733,17 @@ FeatureItem SIFT::CalculateSiftDescriptor( const string& filename, int gridSpaci
 		Mat Img=im2double(result);
 		result.release();
 
+		return CalculateSiftDescriptor(Img, gridSpacing, patchSize, maxImSize, nrml_threshold);
+	}catch (cv::Exception e)
+	{
+		printf("Exception happened in file %s\n",filename.c_str());
+		printf("%s\n", e.msg.c_str());
+		return FeatureItem();
+	}
+}
+
+FeatureItem SIFT::CalculateSiftDescriptor(Mat Img, int gridSpacing, int patchSize, int maxImSize, float nrml_threshold)
+{
 		CvSize size=Img.size();
 		//Resize if image is larger than maxImSize
 		int imgLength = size.width > size.height ? size.width : size.height;
@@ -765,12 +776,5 @@ FeatureItem SIFT::CalculateSiftDescriptor( const string& filename, int gridSpaci
 		fea.x = reshapeY(gridX) + patchSize / 2 - 0.5;
 		fea.y = reshapeY(gridY) + patchSize / 2 - 0.5;
 
-		printf("Calculated SIFT feature for %s\n", filename.c_str());
 		return fea;
-	}catch (cv::Exception e)
-	{
-		printf("Exception happened in file %s\n",filename.c_str());
-		printf("%s\n", e.msg.c_str());
-		return FeatureItem();
-	}
 }
