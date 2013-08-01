@@ -93,7 +93,7 @@ double Retrival::TestAll( const RetrievalDatabase& database )
 
 void Retrival::loadDefaultConfig()
 {
-
+	
 }
 
 vector<RetrievalItem> Retrival::retrieve( const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabase& database )
