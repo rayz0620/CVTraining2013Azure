@@ -1,2 +1,0 @@
-/usr/bin/ar cr lib/libFeatureDatabase.a  CMakeFiles/FeatureDatabase.dir/src/FeatureDatabase.cpp.o
-/usr/bin/ranlib lib/libFeatureDatabase.a

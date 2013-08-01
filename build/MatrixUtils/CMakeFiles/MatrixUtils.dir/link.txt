@@ -1,2 +1,0 @@
-/usr/bin/ar cr lib/libMatrixUtils.a  CMakeFiles/MatrixUtils.dir/src/Util.cpp.o
-/usr/bin/ranlib lib/libMatrixUtils.a

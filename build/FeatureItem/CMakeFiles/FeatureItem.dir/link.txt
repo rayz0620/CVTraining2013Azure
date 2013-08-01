@@ -1,2 +1,0 @@
-/usr/bin/ar cr lib/libFeatureItem.a  CMakeFiles/FeatureItem.dir/src/FeatureItem.cpp.o
-/usr/bin/ranlib lib/libFeatureItem.a

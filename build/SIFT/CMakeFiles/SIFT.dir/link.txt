@@ -1,2 +1,0 @@
-/usr/bin/ar cr lib/libSIFT.a  CMakeFiles/SIFT.dir/src/SIFT.cpp.o
-/usr/bin/ranlib lib/libSIFT.a
