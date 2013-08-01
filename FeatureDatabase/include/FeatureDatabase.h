@@ -29,5 +29,5 @@ public:
 	int threads;
 private:
 
-	bool saveSingle(const FeatureItem& item, string targetPath, const string extension = ".gz" );
+	bool saveSingle(const FeatureItem& item, string targetPath, const string extension = ".yml" );
 };

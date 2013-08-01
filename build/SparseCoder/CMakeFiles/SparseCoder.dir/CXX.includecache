@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../SparseCoder/../include/FeatureItem.h
+opencv2/opencv.hpp
+-
+string
+-
+
+../SparseCoder/../include/Util.h
+opencv2/opencv.hpp
+-
+vector
+-
+
+../SparseCoder/../include/sparseCoding.h
+opencv2/opencv.hpp
+-
+opencv2/core/core.hpp
+-
+nlopt.hpp
+-
+Util.h
+../SparseCoder/../include/Util.h
+
+../SparseCoder/include/SparseCoder.h
+opencv2/opencv.hpp
+-
+FeatureItem.h
+../SparseCoder/include/FeatureItem.h
+string
+-
+vector
+-
+sparseCoding.h
+../SparseCoder/include/sparseCoding.h
+
+/home/rayz/github/CVTraining2013Azure/SparseCoder/src/SparseCoder.cpp
+SparseCoder.h
+/home/rayz/github/CVTraining2013Azure/SparseCoder/src/SparseCoder.h
+

@@ -293,11 +293,10 @@ void Python_FeatureDatabase::loadConfig(const string& config)
 	db.loadConfig(config);
 }
 	
-PyObject* Python_FeatureDatabase::calculateItem(PyObject* image)
+FeatureItem Python_FeatureDatabase::calculateItem(PyObject* image)
 {
 	Mat cvImg;
 	pyopencv_to(image, cvImg);
 	cvImg.convertTo(cvImg, CV_32F);
-	Mat processedImg = db.calculateItem(cvImg).feaArr;
-	return pyopencv_from(processedImg);
+	return db.calculateItem(cvImg);
 }

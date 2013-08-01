@@ -1,0 +1,2 @@
+/usr/bin/ar cr lib/libRetrieval.a  CMakeFiles/Retrieval.dir/src/Retrieval.cpp.o
+/usr/bin/ranlib lib/libRetrieval.a

@@ -1,0 +1,2 @@
+/usr/bin/ar cr lib/libSparseCoding.a  CMakeFiles/SparseCoding.dir/src/SparseCoding.cpp.o
+/usr/bin/ranlib lib/libSparseCoding.a

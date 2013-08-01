@@ -1,0 +1,2 @@
+/usr/bin/ar cr lib/libSemanticDatabase.a  CMakeFiles/SemanticDatabase.dir/src/SemanticDatabase.cpp.o
+/usr/bin/ranlib lib/libSemanticDatabase.a

@@ -1,11 +1,13 @@
 #include "LLC.h"
 #include <Python.h>
+#include <boost/python.hpp>
 
 using namespace LLC;
+using namespace boost::python;
 
-class python_LLC: public LLCoder
+class python_LLC
 {
 public:
 	python_LLC();
-	PyObject* py_calculateLLC(FeatureItem feaSet);
+	object py_calculateLLC(object feaSet, object B, object pyramid, object knn);
 };

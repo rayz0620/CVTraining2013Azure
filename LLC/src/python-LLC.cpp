@@ -144,8 +144,9 @@ NumpyAllocator g_numpyAllocator;
 
 enum { ARG_NONE = 0, ARG_MAT = 1, ARG_SCALAR = 2 };
 
-static int pyopencv_to(const PyObject* o, Mat& m, const char* name = "<unknown>", bool allowND=true)
+static int pyopencv_to(const object obj, Mat& m, const char* name = "<unknown>", bool allowND=true)
 {
+    PyObject* o = obj.ptr();
     //NumpyAllocator g_numpyAllocator;
     if(!o || o == Py_None)
     {
@@ -237,10 +238,11 @@ static int pyopencv_to(const PyObject* o, Mat& m, const char* name = "<unknown>"
     return true;
 }
 
-static PyObject* pyopencv_from(const Mat& m)
+static object pyopencv_from(const Mat& m)
 {
     if( !m.data )
-        Py_RETURN_NONE;
+        return object();
+        //Py_RETURN_NONE;
     Mat temp, *p = (Mat*)&m;
     if(!p->refcount || p->allocator != &g_numpyAllocator)
     {
@@ -249,7 +251,8 @@ static PyObject* pyopencv_from(const Mat& m)
         p = &temp;
     }
     p->addref();
-    return pyObjectFromRefcount(p->refcount);
+    boost::python::object obj(boost::python::handle<>(pyObjectFromRefcount(p->refcount)));
+    return obj;
 }
 
 python_LLC::python_LLC()
@@ -257,7 +260,19 @@ python_LLC::python_LLC()
 	import_array();
 }
 	
-PyObject* python_LLC::py_calculateLLC(FeatureItem feaSet)
+object python_LLC::py_calculateLLC(object obj_feaSet, object obj_B, object obj_pyramid, object obj_knn)
 {
-    return pyopencv_from(calculateLLC(feaSet));
+    FeatureItem item;
+    pyopencv_to(obj_feaSet.attr("feaArr"), item.feaArr);
+    pyopencv_to(obj_feaSet.attr("x"), item.feaArr);
+    pyopencv_to(obj_feaSet.attr("y"), item.feaArr);
+    item.width = extract<double>(obj_feaSet.attr("width"));
+    item.height = extract<double>(obj_feaSet.attr("height"));
+
+    Mat B, pyramid;
+    pyopencv_to(obj_B, B);
+    pyopencv_to(obj_pyramid, pyramid);
+    double knn = extract<double>(obj_knn);
+    Mat result = LLC_pooling(item, B, pyramid, knn);
+    return pyopencv_from(result);
 }

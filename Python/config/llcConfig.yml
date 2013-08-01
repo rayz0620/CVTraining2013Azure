@@ -1,0 +1,5 @@
+B: "llc_base.yml"
+pyramid: "llc_pyramid.yml"
+knn: 5
+isParallel: 1
+threads: 8

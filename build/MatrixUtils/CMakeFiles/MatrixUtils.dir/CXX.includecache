@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../MatrixUtils/include/Util.h
+opencv2/opencv.hpp
+-
+vector
+-
+
+/home/rayz/github/CVTraining2013Azure/MatrixUtils/src/Util.cpp
+Util.h
+/home/rayz/github/CVTraining2013Azure/MatrixUtils/src/Util.h
+iostream
+-
+ctime
+-
+cmath
+-
+stdlib.h
+-
+

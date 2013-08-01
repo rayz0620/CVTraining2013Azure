@@ -8,7 +8,7 @@ public:
 	Python_FeatureDatabase();
 	Python_FeatureDatabase(const string& config);
 	void loadConfig(const string& config);
-	PyObject* calculateItem(PyObject* image);
+	FeatureItem calculateItem(PyObject* image);
 
 private:
 	FeatureDatabase db;
