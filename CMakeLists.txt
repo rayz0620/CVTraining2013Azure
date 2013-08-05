@@ -1,6 +1,18 @@
 project(SCCASDF)
 cmake_minimum_required(VERSION 2.8)
 
+if (WIN32)
+	set(Boost_DEBUG 1)
+	SET(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "C:/lib/boost_1_54_0/boost")
+	SET(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "C:/lib/numpy-1.7.0/numpy/core/include")
+	include_directories("C:/lib/numpy-1.7.0/numpy/core/include")
+	SET(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "C:/lib/boost_1s_54_0/boost/lib32-msvc-11.0")
+	SET(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "C:/lib/nlopt")
+	set(BOOST_ROOT "C:/lib/boost_1_54_0")
+	set(BOOST_INCLUDEDIR "C:/lib/boost_1_54_0/boost")
+	set(BOOST_LIBRARYDIR "C:/lib/boost_1_54_0/lib32-msvc-11.0")
+endif()
+
 add_subdirectory(GenerateImageFeature)
 add_subdirectory(FeatureDatabase)
 add_subdirectory(FeatureItem)

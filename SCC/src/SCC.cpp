@@ -75,7 +75,7 @@ vector<Mat> SCC::semantic_neighbours( const Mat qfea, const Mat f, const Mat W, 
 	return ret;
 }
 
-double SCC::retrievalScore( const InputArray& queryFea, const InputArray& candidateFea, const InputArray& codebook )
+double SCC::retrievalScore( const InputArray queryFea, const InputArray candidateFea, const InputArray codebook )
 {
 	Mat qF = queryFea.getMat();
 	Mat cF = candidateFea.getMat();
@@ -85,6 +85,120 @@ double SCC::retrievalScore( const InputArray& queryFea, const InputArray& candid
 	Mat b = cbi * cF;
 	double score = norm(cbi * cF - qF);
 	return score;
+}
+
+Mat SCC::L1QP_FeatureSign_Yang( double lambda, const Mat A, const Mat b )
+{
+	Mat a;
+	Mat x_min, o_min;
+	double loss;
+	double EPS = 1e-9;
+
+	Mat x = Mat::zeros(A.rows, 1, MAT_TYPE);	//coeff
+	Mat gradient = A * x + b;
+	double maxValue;
+	int maxIndex[2];
+	Mat xZero = MatMemberwiseIsZero(x);
+
+	// Find max element in gradient
+	minMaxIdx(abs(gradient).mul(xZero), NULL, &maxValue, NULL, maxIndex);
+
+	int outerCount = 0;
+	while (true && outerCount < 100)
+	{
+		int mi = maxIndex[0];
+		MatElem gradMax = gradient.at<MatElem>(maxIndex[0], 0);
+		if (gradMax > lambda + EPS)
+			x.at<MatElem>(mi, 0) = (lambda - gradMax) / A.at<MatElem>(mi, mi);
+		else if (gradMax < -lambda - EPS)
+			x.at<MatElem>(mi, 0) = (-lambda - gradMax) / A.at<MatElem>(mi, mi);
+		else if (isZeroMatrix(x))
+			break;
+
+		int innerCount = 0;
+		while (true && innerCount < 100)
+		{
+			//TODO: deal with when active set is empty
+			a = MatMemberwiseIsNonZero(x);
+
+			Mat Aa = LogicSubDiagonal(A, a, a);
+			Mat ba = LogicSubVector(b, a);
+			Mat xa = LogicSubVector(x, a);
+			Mat vect = -lambda * MatrixSign(xa) - ba;
+			Mat x_new = Aa.inv() *  vect;
+
+			Mat idx = find(x_new);
+
+			Mat x_new_i = SubVector(x_new, idx);
+			Mat o_new = (SubVector(vect, idx) / 2
+				+ SubVector(ba, idx)).t()
+				* x_new_i
+				+ lambda * sum(abs(x_new_i));
+
+			// 			Mat o_new = (SubVector(vect, idx, noArray()) / 2
+			// 				+ SubVector(ba, idx, noArray())).t()
+			// 				* SubVector(x_new, idx, noArray())
+			// 				+ lambda * sum(abs(SubVector(x_new, idx, noArray())));
+
+			// Cost based on changing sign
+			Mat s = find(MatMemberwiseNonPositive(xa.mul(x_new)));
+			if (s.empty())
+			{
+				LogicMultiAssign(x, a, x_new);
+// 				for (int i = 0; i < a.size().height; i++)
+// 				{
+// 					if (a.at<MatElem>(i, 0) != 0)
+// 					{
+// 						x.at<MatElem>(i, 0) = x_new.at<MatElem>(count++, 0);
+// 					}
+// 				}
+				loss = o_new.at<MatElem>(0, 0);
+				break;
+			}
+			x_min = x_new;
+			o_min = o_new;
+			Mat d = x_new - xa;
+			Mat t = d.mul(1/xa);
+			Mat st = s.t();
+
+			MatConstIterator_<MatElem> it = st.begin<MatElem>(),
+				itEnd = st.end<MatElem>();
+			for (; it != itEnd; it++)
+			{
+				int zd = *it;
+				Mat x_s = xa - d / t.at<MatElem>(zd, 0);
+				x_s.at<MatElem>(zd, 0) = 0;
+				Mat idx = find(x_s);
+				Mat x_si = SubVector(x_s, idx);
+
+				Mat o_s = (SubDiagonal(Aa, idx, idx) * x_si / 2
+					+ SubVector(ba, idx)).t() * x_si
+					+ lambda * sum(abs(x_si));
+
+				// 				Mat o_s = (SubDiagonal(Aa, idx, idx) * SubVector(x_s, idx) / 2
+				// 					+ SubVector(ba, idx)).t() * SubVector(x_s, idx)
+				// 					+ lambda * sum(abs(SubVector(x_s, idx)));
+
+				if (o_s.at<MatElem>(0, 0) < o_min.at<MatElem>(0, 0))
+				{
+					x_min = x_s;
+					o_min = o_s;
+				}
+			}
+			LogicMultiAssign(x, a, x_min);
+			loss = o_min.at<MatElem>(0, 0);
+			innerCount++;
+		}
+
+		gradient = A * x + b;
+		xZero = MatMemberwiseIsZero(x);
+		minMaxIdx(abs(gradient).mul(xZero), NULL, &maxValue, NULL, maxIndex);
+		if (maxValue <= lambda + EPS)
+			break;
+		outerCount++;
+	}
+	//printf("Feature sign finished at outer loop %d\n", outerCount);
+	return x;
 }
 
 // Mat L1QP_FeatureSign_Set_Yang( double lambda, const Mat& A, const Mat& b )
