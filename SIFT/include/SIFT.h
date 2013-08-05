@@ -1,13 +1,14 @@
 #include <opencv2/opencv.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include <math.h>
 #include <iostream>
 #include <cstdio>
 #include "FeatureItem.h"
 
 using namespace std;
-using namespace cv;
 
 namespace SIFT{
+	using namespace cv;
 	const double pi=3.1415926;
 
 	Mat mcos(Mat src);

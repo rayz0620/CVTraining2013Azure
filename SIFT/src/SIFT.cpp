@@ -721,7 +721,7 @@ FeatureItem SIFT::CalculateSiftDescriptorFromFile( const string& filename, int g
 
 	try
 	{
-		Mat iplImg = imread(filename, CV_LOAD_IMAGE_GRAYSCALE);
+		Mat iplImg = imread(filename, 0 /*CV_LOAD_IMAGE_GRAYSCALE*/);
 		//IplImage* GrayImage = cvCreateImage(cvGetSize(iplImg),IPL_DEPTH_8U,1);
 		//cvCvtColor(iplImg,GrayImage,CV_RGB2GRAY);
 
@@ -752,7 +752,7 @@ FeatureItem SIFT::CalculateSiftDescriptor(Mat Img, int gridSpacing, int patchSiz
 			float scale = (float)imgLength / maxImSize;
 			size.width /= scale;
 			size.height /= scale;
-			resize(Img, Img, size, 0, 0, CV_INTER_AREA);
+			resize(Img, Img, size, 0, 0, 3 /*CV_INTER_AREA*/);
 		}
 		float remX=(size.width-patchSize)%gridSpacing;
 		int offsetX = floor(remX/2)+1;
