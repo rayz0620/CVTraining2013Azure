@@ -19,3 +19,5 @@ def query(filename):
 
 def startJob():
 	print 'Hadoop job started'
+
+def get

@@ -6,55 +6,82 @@ using namespace SCC;
 using namespace IOUtils;
 using namespace boost;
 
-Retrival::Retrival( double g1 /*= 0.1*/, double g2 /*= 0*/, double b /*= 1e-5*/ )
+Retrieval::Retrieval( double g1 /*= 0.1*/, double g2 /*= 0*/, double b /*= 1e-5*/ )
 	:gamma1(g1), gamma2(g2), beta(b)
 {
 	parallelScoreNum = 1;
 }
 
+Retrieval::Retrieval(const Retrieval& other)
+{
+	gamma1 = other.gamma1;
+	gamma2 = other.gamma2;
+	beta = other.beta;
+	rdb = other.rdb;
+	sdb = other.sdb;
+}
 
-double Retrival::Gamma1() const
+double Retrieval::Gamma1() const
 {
 	return gamma1;
 }
 
-void Retrival::Gamma1( double val )
+void Retrieval::Gamma1( double val )
 {
 	gamma1 = val;
 }
 
-double Retrival::Gamma2() const
+double Retrieval::Gamma2() const
 {
 	return gamma2;
 }
 
-void Retrival::Gamma2( double val )
+void Retrieval::Gamma2( double val )
 {
 	gamma2 = val;
 }
 
-double Retrival::Beta() const
+double Retrieval::Beta() const
 {
 	return beta;
 }
 
-void Retrival::Beta( double val )
+void Retrieval::Beta( double val )
 {
 	beta = val;
 }
 
-RetrievalDatabase* Retrival::RDb() const
+RetrievalDatabase* Retrieval::RDb() const
 {
 	return rdb;
 }
 
-void Retrival::RDb( RetrievalDatabase* val )
+void Retrieval::RDb( RetrievalDatabase* val )
 {
 	rdb = val;
-
 }
 
-double Retrival::TestSingle( const RetrievalDatabaseItem& query  )
+vector<string> Retrieval::processQuery(Mat queryFea, int topNum)
+{
+	auto neighbour = semantic_neighbours(queryFea, f, W, sigma, beta, gamma1, gamma2);
+	Mat cb = neighbour.at(0);
+	Mat sou = neighbour.at(2);
+
+	vector<RetrievalItem> result;
+	vector<string> topNId(topNum);
+	if (parallelScoreNum > 1)
+		result = parallelRetrieve(sou, cb, *rdb);
+	else
+		result = retrieve(sou, cb, *rdb);
+
+	for (int i = 0; i < topNum && i < result.size(); i++)
+	{
+		topNId.push_back(result[i].id);
+	}
+	return topNId;
+}
+
+double Retrieval::TestSingle( const RetrievalDatabaseItem& query  )
 {
 	double currentPrecision = 0.0;
 	int scope = 0;
@@ -79,7 +106,7 @@ double Retrival::TestSingle( const RetrievalDatabaseItem& query  )
 	return currentPrecision;
 }
 
-double Retrival::TestAll( const RetrievalDatabase& database )
+double Retrieval::TestAll( const RetrievalDatabase& database )
 {
 	double precision = 0.0;
 
@@ -91,12 +118,12 @@ double Retrival::TestAll( const RetrievalDatabase& database )
 	return precision;
 }
 
-void Retrival::loadDefaultConfig()
+void Retrieval::loadDefaultConfig()
 {
 	
 }
 
-vector<RetrievalItem> Retrival::retrieve( const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabase& database )
+vector<RetrievalItem> Retrieval::retrieve( const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabase& database )
 {
 	vector<RetrievalItem> retrievalList;
 	retrievalList.reserve(database.size());
@@ -117,7 +144,7 @@ vector<RetrievalItem> Retrival::retrieve( const InputArray& queryFea, const Inpu
 }
 
 
-vector<RetrievalItem> Retrival::parallelRetrieve( const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabase& database )
+vector<RetrievalItem> Retrieval::parallelRetrieve( const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabase& database )
 {
 	vector<RetrievalItem> retrievalList;
 	retrievalList.reserve(database.size());
@@ -128,7 +155,7 @@ vector<RetrievalItem> Retrival::parallelRetrieve( const InputArray& queryFea, co
 
 	for(auto db_it = database.begin(); db_it != database.end(); db_it++)
 	{
-		auto thread = boost::bind(&Retrival::parallelRetrieveScoreThread, this, queryFea, codebook, db_it->second, &retrievalList);
+		auto thread = boost::bind(&Retrieval::parallelRetrieveScoreThread, this, queryFea, codebook, db_it->second, &retrievalList);
 		threaP.schedule(thread);
 		threaP.wait(parallelScoreNum + 1);
 	}
@@ -138,7 +165,7 @@ vector<RetrievalItem> Retrival::parallelRetrieve( const InputArray& queryFea, co
 }
 
 
-void Retrival::parallelRetrieveScoreThread( const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabaseItem db_it, vector<RetrievalItem> *retrievalList )
+void Retrieval::parallelRetrieveScoreThread( const InputArray& queryFea, const InputArray& codebook, const RetrievalDatabaseItem db_it, vector<RetrievalItem> *retrievalList )
 {
 	RetrievalItem item;
 	item.id = db_it.id;
@@ -150,7 +177,7 @@ void Retrival::parallelRetrieveScoreThread( const InputArray& queryFea, const In
 	retrieval_list_mutex.unlock();
 }
 
-void Retrival::parallelRetrieveThread( RetrievalDatabaseItem query, double* ret_precision )
+void Retrieval::parallelRetrieveThread( RetrievalDatabaseItem query, double* ret_precision )
 {
 	double result = TestSingle(query);
 	retrieval_precision_mutex.lock();
@@ -162,13 +189,13 @@ void Retrival::parallelRetrieveThread( RetrievalDatabaseItem query, double* ret_
 
 
 
-double Retrival::TestGiven( const string& id )
+double Retrieval::TestGiven( const string& id )
 {
 	auto sub = rdb->operator[](id);
 	return TestSingle(sub);
 }
 
-double Retrival::TestN( const RetrievalDatabase& query , int n /*= 1*/, int begin /*= 0*/ )
+double Retrieval::TestN( const RetrievalDatabase& query , int n /*= 1*/, int begin /*= 0*/ )
 {
 	double precision = 0.0;
 	auto it = query.begin();
@@ -183,7 +210,7 @@ double Retrival::TestN( const RetrievalDatabase& query , int n /*= 1*/, int begi
 	return precision;
 }
 
-double Retrival::ParrallelTestAll( const RetrievalDatabase& queries )
+double Retrieval::ParrallelTestAll( const RetrievalDatabase& queries )
 {
 	isParallel = true;
 	double precision = 0.0;
@@ -192,7 +219,7 @@ double Retrival::ParrallelTestAll( const RetrievalDatabase& queries )
 
 	for (;db_it != queries.end(); db_it++)
 	{
-		threadp.schedule(boost::bind<void>(&Retrival::parallelRetrieveThread, this, db_it->second, &precision));
+		threadp.schedule(boost::bind<void>(&Retrieval::parallelRetrieveThread, this, db_it->second, &precision));
 		threadp.wait(parallelQueryNum * 2 + 1);
 	}
 	threadp.wait(0);
@@ -200,7 +227,7 @@ double Retrival::ParrallelTestAll( const RetrievalDatabase& queries )
 }
 
 
-double Retrival::ParrallelTestN( const RetrievalDatabase& queries, int n /*= 1*/, int begin /*= 0*/ )
+double Retrieval::ParrallelTestN( const RetrievalDatabase& queries, int n /*= 1*/, int begin /*= 0*/ )
 {
 	isParallel = true;
 	double precision = 0.0;
@@ -216,24 +243,24 @@ double Retrival::ParrallelTestN( const RetrievalDatabase& queries, int n /*= 1*/
 
 	for (;count < n && db_it != queries.end(); count++, db_it++)
 	{
-		threadp.schedule(boost::bind<void>(&Retrival::parallelRetrieveThread, this, db_it->second, &precision));
+		threadp.schedule(boost::bind<void>(&Retrieval::parallelRetrieveThread, this, db_it->second, &precision));
 		threadp.wait(parallelQueryNum * 2 + 1);
 	}
 	threadp.wait(0);
 	return precision / count;
 }
 
-bool Retrival::IsParallel() const
+bool Retrieval::IsParallel() const
 {
 	return isParallel;
 }
 
-void Retrival::IsParallel( bool val )
+void Retrieval::IsParallel( bool val )
 {
 	isParallel = val;
 }
 
-void Retrival::loadConfigFile( const string& filename )
+void Retrieval::loadConfigFile( const string& filename )
 {
 	FileStorage file(filename, FileStorage::READ);
 	string auxDBPath, mainDBPath;
@@ -247,7 +274,7 @@ void Retrival::loadConfigFile( const string& filename )
 	}
 }
 
-void Retrival::saveConfigFile( const string& filename )
+void Retrieval::saveConfigFile( const string& filename )
 {
 	FileStorage file(filename, FileStorage::WRITE);
 	if (file.isOpened())
@@ -260,25 +287,25 @@ void Retrival::saveConfigFile( const string& filename )
 	}
 }
 
-SemanticDatabase * Retrival::Sdb() const
+SemanticDatabase * Retrieval::Sdb() const
 {
 	return sdb;
 }
 
-void Retrival::Sdb( SemanticDatabase * val )
+void Retrieval::Sdb( SemanticDatabase * val )
 {
 	sdb = val;
 	initializeSemantic();
 }
 
-void Retrival::initializeSemantic()
+void Retrieval::initializeSemantic()
 {
 	W = sdb->getRelationMatrix();
 	f = sdb->getFeatureMatrix();
 	sigma = Mat::eye(W.size(), W.type());
 }
 
-void Retrival::setParallel( int q, int s )
+void Retrieval::setParallel( int q, int s )
 {
 	parallelQueryNum = q;
 	parallelScoreNum = s;

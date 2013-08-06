@@ -1,6 +1,9 @@
 #include "python-LLC.h"
 #include "numpy/ndarrayobject.h"
 #include "opencv2/core/core.hpp"
+#include "IO.h"
+
+using namespace IOUtils;
 
 // The following conversion functions are taken from OpenCV's cv2.cpp file inside modules/python/src2 folder.
 static PyObject* opencv_error = 0;
@@ -264,10 +267,10 @@ object python_LLC::py_calculateLLC(dict obj_feaSet, object obj_B, object obj_pyr
 {
     FeatureItem item;
     pyopencv_to(obj_feaSet["feaArr"], item.feaArr);
-    pyopencv_to(obj_feaSet["x"], item.feaArr);
-    pyopencv_to(obj_feaSet["y"], item.feaArr);
+    pyopencv_to(obj_feaSet["x"], item.x);
+    pyopencv_to(obj_feaSet["y"], item.y);
     item.width = extract<double>(obj_feaSet["width"]);
-    item.height = extract<double>(obj_feaSet["height"]);
+    item.height = extract<double>(obj_feaSet["height"]);\
 
     Mat B, pyramid;
     pyopencv_to(obj_B, B);

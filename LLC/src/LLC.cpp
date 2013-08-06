@@ -7,9 +7,6 @@ cv::Mat LLC::LLC_pooling( FeatureItem feaSet,Mat B,Mat pyramid,int knn )
 	double img_width=feaSet.width;
 	double img_height=feaSet.height;
 	Mat idxBin=Mat::zeros(nSmp,1,CV_32F);
-	printf("Type of Feature is %d and should be %d\n", feaSet.feaArr.type(), CV_32F);
-	printf("Type of B is %d and should be %d\n", B.type(), CV_32F);
-	printf("Type of pyramid is %d and should be %d\n", pyramid.type(), CV_32F);
 	//llc coding
 	Mat llc_codes=LLC_coding_appr(B.t(),feaSet.feaArr.t(),knn);
 	llc_codes=llc_codes.t();
@@ -55,8 +52,8 @@ cv::Mat LLC::LLC_coding_appr( Mat B,Mat X,int knn )
 {
 	double beta=1e-4;
 
-	double nframe=X.size().height;
-	double nbase=B.size().height;
+	double nframe=X.rows;
+	double nbase=B.rows;
 
 	Mat t1=X.mul(X);
 	Mat t2=B.mul(B);
@@ -64,23 +61,22 @@ cv::Mat LLC::LLC_coding_appr( Mat B,Mat X,int knn )
 	Mat XX=sumrow(t1);
 	Mat BB=sumrow(t2);
 
-	Mat t3=Mat::zeros(XX.size().height,nbase,CV_32F);
-	Mat t4=Mat::zeros(nframe,BB.size().height,CV_32F);
+	Mat t3=Mat::zeros(XX.rows,nbase,CV_32F);
+	Mat t4=Mat::zeros(nframe,BB.rows,CV_32F);
 	for(int i=0;i<nbase;i++)
 	{
-		//t3.col(i)=XX+0;
+		//t3.col(i)=XX + 0;
 		XX.copyTo(t3.col(i));
 	}
 
 
 	for(int i=0;i<nframe;i++)
 	{
-		//t4.row(i)=BB.t();
+		//t4.row(i)=BB.t() + 0;
 		((Mat)BB.t()).copyTo(t4.row(i));
 	}
 	//D check OK
-	Mat D=t3-2*X*(B.t())+t4;
-
+	Mat D=t3-(2*X*(B.t()))+t4;
 	//IDX check OK
 	Mat IDX=Mat::zeros(nframe,knn,CV_32F);
 
@@ -111,11 +107,13 @@ cv::Mat LLC::LLC_coding_appr( Mat B,Mat X,int knn )
 			X.row(i).copyTo(t5.row(j));
 		}
 		z=z-t5;
+
 		Mat C=z*z.t();
 		double t6=sumtrace(C);
 		C=C+II*beta*t6;
 
 		Mat w=Mat::ones(knn,1,CV_32F);
+		
 		w=C.inv()*w;
 		w=w/sum(w).val[0];
 		w=w.t();

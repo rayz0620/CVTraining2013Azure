@@ -15,10 +15,4 @@ class LLCoder:
 			self.knn = cfg['knn']
 
 	def encode(self, src):
-		print src['x'].shape
-		print src['y'].shape
-		print src['feaArr'].shape
-		print self.B.shape
-		print self.pyramid.shape
-		print self.knn
 		return LLC.LLC().calculateLLC(src, self.B, self.pyramid, self.knn)
