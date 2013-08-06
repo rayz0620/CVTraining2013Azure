@@ -9,5 +9,5 @@ class python_LLC
 {
 public:
 	python_LLC();
-	object py_calculateLLC(object feaSet, object B, object pyramid, object knn);
+	object py_calculateLLC(dict feaSet, object B, object pyramid, object knn);
 };

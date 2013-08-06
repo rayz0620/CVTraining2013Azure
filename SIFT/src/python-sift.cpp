@@ -1,6 +1,6 @@
 #include <Python.h>
 #include <boost/python.hpp>
-
+//#include "python-map.h"
 #include "SIFT.h"
 
 using namespace boost::python;
@@ -279,15 +279,28 @@ public:
 		pyopencv_to(img.ptr(), imgM);
         if (imgM.type() != CV_32F)
             imgM.convertTo(imgM, CV_32F);
+        printf("Input image: Width %d, Height %d\n", imgM.cols, imgM.rows);
 		FeatureItem item = CalculateSiftDescriptor(imgM, gridSpacing, patchSize, maxImSize, nrml_threshold);
-		object ret(0);
-		ret.attr("feaArr") = boost::python::object(boost::python::handle<>(pyopencv_from(item.feaArr)));
-		ret.attr("height") = item.height;
-		ret.attr("width") = item.width;
-		ret.attr("x") = boost::python::object(boost::python::handle<>(pyopencv_from(item.x)));
-		ret.attr("y") = boost::python::object(boost::python::handle<>(pyopencv_from(item.y)));
+        dict ret;
+		ret["feaArr"] = boost::python::object(boost::python::handle<>(pyopencv_from(item.feaArr)));
+		ret["height"] = item.height;
+		ret["width"] = item.width;
+		ret["x"] = boost::python::object(boost::python::handle<>(pyopencv_from(item.x)));
+		ret["y"] = boost::python::object(boost::python::handle<>(pyopencv_from(item.y)));
 		return ret;
 	}
+
+    object py_CalculateSiftDescriptorFromFile(string img, int gridSpacing, int patchSize, int maxImSize, float nrml_threshold)
+    {
+        FeatureItem item = CalculateSiftDescriptorFromFile(img, gridSpacing, patchSize, maxImSize, nrml_threshold);
+        dict ret;
+        ret["feaArr"] = boost::python::object(boost::python::handle<>(pyopencv_from(item.feaArr)));
+        ret["height"] = item.height;
+        ret["width"] = item.width;
+        ret["x"] = boost::python::object(boost::python::handle<>(pyopencv_from(item.x)));
+        ret["y"] = boost::python::object(boost::python::handle<>(pyopencv_from(item.y)));
+        return ret;
+    }
 };
 
 
@@ -297,5 +310,6 @@ BOOST_PYTHON_MODULE(sift)
     using namespace boost::python;
     class_<python_SIFT>("sift")
     	.def("calculateSiftDescriptor", &python_SIFT::py_CalculateSiftDescriptor)
+        .def("calculateSiftDescriptorFromFile", &python_SIFT::py_CalculateSiftDescriptorFromFile)
     ;
 }

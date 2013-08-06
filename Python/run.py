@@ -1,16 +1,8 @@
 import llcoder
 import matrixio as io
 import FeatureDatabase as fdb
+import website as web
 
-cfg = '127_0005.yml'
-i = io.io()
-y = i.load("qfea.yml")
-#print y
-i.save("1.yml", y)
-#y = io.load(cfg)
-
-c = llcoder.LLCoder()
-c.loadConfig(cfg)b
-print y
+web.query('011_0014.jpg')
 #print c.pyramid
 #print c.knn

@@ -260,14 +260,14 @@ python_LLC::python_LLC()
 	import_array();
 }
 	
-object python_LLC::py_calculateLLC(object obj_feaSet, object obj_B, object obj_pyramid, object obj_knn)
+object python_LLC::py_calculateLLC(dict obj_feaSet, object obj_B, object obj_pyramid, object obj_knn)
 {
     FeatureItem item;
-    pyopencv_to(obj_feaSet.attr("feaArr"), item.feaArr);
-    pyopencv_to(obj_feaSet.attr("x"), item.feaArr);
-    pyopencv_to(obj_feaSet.attr("y"), item.feaArr);
-    item.width = extract<double>(obj_feaSet.attr("width"));
-    item.height = extract<double>(obj_feaSet.attr("height"));
+    pyopencv_to(obj_feaSet["feaArr"], item.feaArr);
+    pyopencv_to(obj_feaSet["x"], item.feaArr);
+    pyopencv_to(obj_feaSet["y"], item.feaArr);
+    item.width = extract<double>(obj_feaSet["width"]);
+    item.height = extract<double>(obj_feaSet["height"]);
 
     Mat B, pyramid;
     pyopencv_to(obj_B, B);

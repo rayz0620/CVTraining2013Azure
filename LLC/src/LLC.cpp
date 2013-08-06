@@ -7,6 +7,9 @@ cv::Mat LLC::LLC_pooling( FeatureItem feaSet,Mat B,Mat pyramid,int knn )
 	double img_width=feaSet.width;
 	double img_height=feaSet.height;
 	Mat idxBin=Mat::zeros(nSmp,1,CV_32F);
+	printf("Type of Feature is %d and should be %d\n", feaSet.feaArr.type(), CV_32F);
+	printf("Type of B is %d and should be %d\n", B.type(), CV_32F);
+	printf("Type of pyramid is %d and should be %d\n", pyramid.type(), CV_32F);
 	//llc coding
 	Mat llc_codes=LLC_coding_appr(B.t(),feaSet.feaArr.t(),knn);
 	llc_codes=llc_codes.t();
@@ -50,7 +53,6 @@ cv::Mat LLC::LLC_pooling( FeatureItem feaSet,Mat B,Mat pyramid,int knn )
 
 cv::Mat LLC::LLC_coding_appr( Mat B,Mat X,int knn )
 {
-	knn=5;
 	double beta=1e-4;
 
 	double nframe=X.size().height;

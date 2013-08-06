@@ -6,7 +6,7 @@ imgPath = basePath + 'images/'
 featPath = basePath + 'imgFeat/'
 cfgPath = basePath + 'config/'
 featCfg = cfgPath + "feaConfig.yml"
-llcCfg = cfgPath + "llcConfg.yml"
+llcCfg = cfgPath + "llcConfig.yml"
 scCfg = cfgPath + "scConfig.yml"
 
 llcBase = matIO.load(cfgPath + 'llcBase.yml')

@@ -7,7 +7,7 @@ class siftGenerator:
 		pass
 
 	def __init__(self, cfgFile):
-		loadConfig(cfgFile)
+		self.loadConfig(cfgFile)
 
 	def loadConfig(self, filename):
 		with open(filename) as file:
@@ -18,9 +18,10 @@ class siftGenerator:
 			self.nrml_threshold = config['nrml_threshold']
 
 	def generateSift(self, imgOrFilename):
-		if isinstance(imgOrFilename, str):
-			image = cv2.imread(imgOrFilename)
-			grayImg = grayImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-		else:
-			grayImg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-		return sift.calculateSiftDescriptor(img, self.gridSpacing, self.patchSize, self.maxImSize, self.nrml_threshold)
+		#if isinstance(imgOrFilename, str):
+			#grayImg = cv2.imread(imgOrFilename, cv2.CV_LOAD_IMAGE_GRAYSCALE)
+		return sift.sift().calculateSiftDescriptorFromFile(imgOrFilename, self.gridSpacing, self.patchSize, self.maxImSize, self.nrml_threshold)
+			#grayImg = grayImg = cv2.cvtColor(imgOrFilename, cv2.COLOR_BGR2GRAY)
+		#else:
+			#grayImg = cv2.cvtColor(imgOrFilename, cv2.COLOR_BGR2GRAY)
+			#return sift.sift().calculateSiftDescriptor(imgOrFilename, self.gridSpacing, self.patchSize, self.maxImSize, self.nrml_threshold)

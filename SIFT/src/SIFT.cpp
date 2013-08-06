@@ -732,6 +732,7 @@ FeatureItem SIFT::CalculateSiftDescriptorFromFile( const string& filename, int g
 
 		Mat Img=im2double(result);
 		result.release();
+		printf("Loaded image %s\n", filename.c_str());
 
 		return CalculateSiftDescriptor(Img, gridSpacing, patchSize, maxImSize, nrml_threshold);
 	}catch (cv::Exception e)
@@ -753,6 +754,7 @@ FeatureItem SIFT::CalculateSiftDescriptor(Mat Img, int gridSpacing, int patchSiz
 			size.width /= scale;
 			size.height /= scale;
 			resize(Img, Img, size, 0, 0, 3 /*CV_INTER_AREA*/);
+			//printf("Image resized to %d * %d", size.width, size.height);
 		}
 		float remX=(size.width-patchSize)%gridSpacing;
 		int offsetX = floor(remX/2)+1;
