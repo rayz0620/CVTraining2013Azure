@@ -1,4 +1,4 @@
-#include<opencv2/opencv.hpp>
+#include <opencv2/opencv.hpp>
 #include "FeatureItem.h"
 #include <boost/filesystem.hpp>
 
@@ -11,9 +11,7 @@ namespace LLC{
 	public:
 		LLCoder();
 		bool generateLLCDatabase(path srcPath, path destPath);
-		Mat LLC_pooling( FeatureItem feaSet,Mat B,Mat pyramid,int knn );
-		//check LLC_coding_appr OK
-		Mat LLC_coding_appr(Mat B,Mat X,int knn);
+		Mat calculateLLC( FeatureItem feaSet);
 
 		void saveConfig(const string& filename);
 		void loadConfig(const string& filename);
@@ -26,6 +24,6 @@ namespace LLC{
 
 	private:
 		void generateLLCSingle(path srcPath, path destPath);
-		bool saveSingle(Mat item, path destPath, const string& filename, const string& extension = ".yml.gz");
+		bool saveSingle(Mat item, path destPath, const string& filename, const string& extension = ".yml");
 	};
 }

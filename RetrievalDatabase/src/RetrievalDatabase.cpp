@@ -60,7 +60,9 @@ bool RetrievalDatabase::load( const string& dbPath, const string& extension, boo
 		for (; it != end_it; it++)
 		{
 			auto &file = it->path();
-			if (file.extension() == extension)
+			if (file.extension() == ".xml"
+				|| file.extension() == ".yml"
+				|| file.extension() == ".gz")
 			{
 				RetrievalDatabaseItem newItem;
 				fs.open(file.string(), FileStorage::READ);
@@ -96,7 +98,9 @@ bool RetrievalDatabase::loadraw( const string& dbPath, const string& extension /
 		for (; it != end_it; it++)
 		{
 			auto &file = it->path();
-			if (file.extension() == extension)
+			if (file.extension() == ".xml"
+				|| file.extension() == ".yml"
+				|| file.extension() == ".gz")
 			{
 				RetrievalDatabaseItem newItem;
 				newItem.feature = readMatrixFromYML(file);

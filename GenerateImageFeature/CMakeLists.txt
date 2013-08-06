@@ -19,6 +19,7 @@ include_directories(../include)
 if (OpenCV_FOUND)
 	add_executable(imgfea ${src_dir}/main.cpp)
 	target_link_libraries(imgfea FeatureDatabase FeatureItem IOUtils MatrixUtils SIFT ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_LIBS} )
+	install (TARGETS imgfea DESTINATION /usr/bin)
 endif()
 
 

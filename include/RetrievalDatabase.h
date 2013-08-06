@@ -29,11 +29,11 @@ typedef map<string, RetrievalDatabaseItem> DB_BASE;
 class RetrievalDatabase: public DB_BASE{
 public:
 	RetrievalDatabase();
-	RetrievalDatabase(const string& dbPath, const string& extension = ".gz", bool isRecursive = true );
+	RetrievalDatabase(const string& dbPath, const string& extension = ".yml", bool isRecursive = true );
 	//bool convertFromRaw(const path& rawPath, const path& targetPath, const string& extension = ".gz", bool isRecursive = true);
-	bool loadraw(const string& dbPath, const string& extension = ".gz", bool isRecursive = true  );
-	bool load(const string& dbPath, const string& extension = ".gz", bool isRecursive = true  );
-	bool save( string& targetPath, const string& extension = ".gz");
+	bool loadraw(const string& dbPath, const string& extension = ".yml", bool isRecursive = true  );
+	bool load(const string& dbPath, const string& extension = ".yml", bool isRecursive = true  );
+	bool save( string& targetPath, const string& extension = ".yml");
 	~RetrievalDatabase();
 private:
 };

@@ -1,4 +1,5 @@
 #include "LLCoder.h"
+#include "LLC.h"
 #include "sum.h"
 #include "IO.h"
 #include <boost/threadpool.hpp>
@@ -6,11 +7,6 @@
 
 using namespace IOUtils;
 using namespace cv;
-
-cv::Mat LLC::calculateLLC( FeatureItem feaSet)
-{
-	return LLC_pooling(feaSet, B, pyramid, knn);
-}
 
 bool LLC::LLCoder::generateLLCDatabase( path srcPath, path destPath )
 {
@@ -68,7 +64,7 @@ void LLC::LLCoder::generateLLCSingle( path srcPath, path destPath )
 		FeatureItem feat;
 		fs[FEA_ITEM_YAML_ELEM_NAME] >> feat;
 		Mat llc = LLC_pooling(feat, B, pyramid, knn);
-		saveSingle(llc, destPath, srcPath.filename().string(), ".gz");
+		saveSingle(llc, destPath, srcPath.filename().string(), "");
 		printf("Generated LLC for %s\n", srcPath.stem().string().c_str());
 	}
 }

@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
 	if (argc < 4)
 	{
         printf("Insufficient arguments\n");
+        printf("Usage: imgfea [configPath] [imgPath] [featPath]\n");
         return 0;
     }else
     {

@@ -1,1 +1,0 @@
-./bin/Release/GenerateInitialDictionary ~/dataset/imageFeat ~/dataset/dictionary/initial.gz 0.001

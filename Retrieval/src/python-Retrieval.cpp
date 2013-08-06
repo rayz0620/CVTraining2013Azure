@@ -269,13 +269,13 @@ boost::python::list py_Retrieval::py_ProcessQuery(object obj_queryFea, object ob
 	return topMatchID;
 }
 
-void py_Retrieval::loadMainDB(str path)
+void py_Retrieval::loadMainDB(string path)
 {
 	rdb = new RetrievalDatabase();
 	rdb->load(path);
 }
 
-void py_Retrieval::loadSemanticDB(str path)
+void py_Retrieval::loadSemanticDB(string path)
 {
 	sdb = new SemanticDatabase();
 	sdb->load(path);

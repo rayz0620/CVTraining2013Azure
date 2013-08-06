@@ -1,0 +1,7 @@
+%YAML:1.0
+gridSpacing: 6
+patchSize: 16
+maxImSize: 300
+nrml_threshold: 1.
+isParallel: 1
+threads: 8
