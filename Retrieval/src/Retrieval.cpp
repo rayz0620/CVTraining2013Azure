@@ -66,17 +66,17 @@ vector<string> Retrieval::processQuery(Mat queryFea, int topNum)
 	auto neighbour = semantic_neighbours(queryFea, f, W, sigma, beta, gamma1, gamma2);
 	Mat cb = neighbour.at(0);
 	Mat sou = neighbour.at(2);
-
+	printf("%d Semantic neighbour retrieved\n", cb.cols);
 	vector<RetrievalItem> result;
 	vector<string> topNId(topNum);
 	if (parallelScoreNum > 1)
 		result = parallelRetrieve(sou, cb, *rdb);
 	else
 		result = retrieve(sou, cb, *rdb);
-
+ 
 	for (int i = 0; i < topNum && i < result.size(); i++)
 	{
-		topNId.push_back(result[i].id);
+		topNId[i] = result[i].id;
 	}
 	return topNId;
 }
@@ -132,7 +132,7 @@ vector<RetrievalItem> Retrieval::retrieve( const InputArray& queryFea, const Inp
 	for(auto db_it = database.begin(); db_it != database.end(); db_it++, count++)
 	{
 		RetrievalItem item;
-		item.id = db_it->first;
+		item.id = db_it->second.id;
 		item.label = db_it->second.label;
 		item.score = retrievalScore(queryFea, db_it->second.feature, codebook);
 		retrievalList.push_back(item);

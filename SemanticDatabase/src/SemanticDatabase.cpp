@@ -2,7 +2,7 @@
 
 void SemanticDatabase::generateTrivialRelationMatrix()
 {
-	Mat semRelation = Mat::zeros(size(), size(), CV_64F);
+	Mat semRelation = Mat::zeros(size(), size(), CV_32F);
 
 	int rowCounter = 0;
 	for (auto i: *this)

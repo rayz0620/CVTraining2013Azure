@@ -2,7 +2,7 @@
 
 Mat SCC::CCCP( const Mat& X, const Mat& B, const Mat& W, const Mat& sigma, double beta, double gamma1, double gamma2 )
 {
-	Mat S = Mat::zeros(W.size().height, 1, CV_64F);
+	Mat S = Mat::zeros(W.size().height, 1, MAT_TYPE);
 	for (int i = 0; i < 100; i++)
 	{
 		Mat p = -gamma2 * 2 * W * S;
@@ -27,7 +27,7 @@ Mat SCC::L1QP_FeatureSign_Set_Zhang( const Mat& X, const Mat& B, const Mat& p, c
 	int nSample = SizeX.width;
 	int nBases = B.size().width;
 	Mat A = B.t() * B + 2 * beta * sigma;
-	Mat S(nBases, nSample, CV_64F);
+	Mat S(nBases, nSample, MAT_TYPE);
 
 	for (int i = 0; i < nSample; i++)
 	{

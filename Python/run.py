@@ -1,8 +1,8 @@
-import llcoder
-import matrixio as io
-import FeatureDatabase as fdb
-import website as web
+import website
 
-web.query('009_0003.jpg')
+website.query('000.jpg')
+website.query('011_0014.jpg')
+website.query('009_0011.jpg')
+website.query('009_0013.jpg')
 #print c.pyramid
 #print c.knn

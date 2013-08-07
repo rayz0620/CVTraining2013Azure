@@ -276,6 +276,7 @@ object python_LLC::py_calculateLLC(dict obj_feaSet, object obj_B, object obj_pyr
     pyopencv_to(obj_B, B);
     pyopencv_to(obj_pyramid, pyramid);
     double knn = extract<double>(obj_knn);
+    //printf ("%d, %d, %d\n", B.type(), pyramid.type(), item.feaArr.type());
     Mat result = LLC_pooling(item, B, pyramid, knn);
     return pyopencv_from(result);
 }

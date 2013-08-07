@@ -253,14 +253,18 @@ static object pyopencv_from(const Mat& m)
     return obj;
 }
 
+py_Retrieval::py_Retrieval()
+{
+    import_array();
+}
+
 boost::python::list py_Retrieval::py_ProcessQuery(object obj_queryFea, object obj_topNum)
 {
+    printf("processing Query\n");
 	int topNum = extract<int>(obj_topNum);
 	Mat queryFea;
 	pyopencv_to(obj_queryFea, queryFea);
-
 	auto result = processQuery(queryFea, topNum);
-
 	boost::python::list topMatchID;
 	for (auto ID : result)
 	{
@@ -280,4 +284,5 @@ void py_Retrieval::loadSemanticDB(string path)
 	sdb = new SemanticDatabase();
 	sdb->load(path);
 	sdb->generateTrivialRelationMatrix();
+    initializeSemantic();
 }

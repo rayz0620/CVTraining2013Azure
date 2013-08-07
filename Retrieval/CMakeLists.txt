@@ -15,7 +15,7 @@ INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS} ${OPENCV_INCLUD
 add_library(Retrieval STATIC ${src_dir}/Retrieval.cpp) 
 if (BUILD_PYTHON_WRAPPER)
 	PYTHON_ADD_MODULE(python-Retrieval ${src_dir}/python-Retrieval.cpp ${src_dir}/python-Retrieval-Module.cpp)
-	TARGET_LINK_LIBRARIES(python-Retrieval Retrieval RetrievalDatabase IOUtils MatrixUtils ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_LIBS})
+	TARGET_LINK_LIBRARIES(python-Retrieval Retrieval SemanticDatabase SCC SparseCoding RetrievalDatabase IOUtils MatrixUtils ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${OpenCV_LIBS})
 	set_target_properties(python-Retrieval PROPERTIES OUTPUT_NAME "retrieval")
 	install (TARGETS python-Retrieval DESTINATION /usr/lib/python2.7/)
 endif()
