@@ -35,6 +35,8 @@ public:
 	bool load(const string& dbPath, const string& extension = ".yml", bool isRecursive = true  );
 	bool save( string& targetPath, const string& extension = ".yml");
 	~RetrievalDatabase();
-private:
+
+protected:
+	string getClassFromFilename(string filename, string delim);
 };
 

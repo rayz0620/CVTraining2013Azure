@@ -1,7 +1,7 @@
 from siftgen import siftGenerator
 from llcoder import LLCoder
 import scc_config as config
-import retrieval
+import retrievalProcess
 import cv2
 
 sg = siftGenerator(config.featCfg)
@@ -11,7 +11,7 @@ llc.loadConfig(config.llcCfg)
 llc.B = config.llcBase
 llc.pyramid = config.llcPyramid
 
-r = retrieval.Retrieval()
+r = retrievalProcess.Retrieval()
 r.loadConfig(config.scCfg)
 r.loadMainDB(config.mainDB)
 r.loadSemanticDB(config.semDB)

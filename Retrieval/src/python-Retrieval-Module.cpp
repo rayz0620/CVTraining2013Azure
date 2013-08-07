@@ -4,7 +4,7 @@
 
 using namespace boost::python;
 
-BOOST_PYTHON_MODULE(retrieval)
+BOOST_PYTHON_MODULE(retrievalProcess)
 {
 	class_<py_Retrieval>("Retrieval")
 		.def("processQuery", & py_Retrieval::py_ProcessQuery)

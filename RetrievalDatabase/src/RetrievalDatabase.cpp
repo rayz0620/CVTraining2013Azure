@@ -105,7 +105,7 @@ bool RetrievalDatabase::loadraw( const string& dbPath, const string& extension /
 				RetrievalDatabaseItem newItem;
 				newItem.feature = readMatrixFromYML(file);
 				newItem.id = file.stem().string();
-				newItem.label.push_back(newItem.id.substr(0,3));
+				newItem.label.push_back(getClassFromFilename(newItem.id, "_"));
 
 				if (!newItem.feature.empty())
 					operator[](newItem.id) = newItem;
@@ -136,6 +136,19 @@ bool RetrievalDatabase::save( string& targetPath, const string& extension /*= ".
 		fs.release();
 	}
 	return true;
+}
+
+
+string RetrievalDatabase::getClassFromFilename(string filename, string delim)
+{
+	int deliPos = filename.find(delim);
+	if (deliPos < filename.size())
+	{
+		return filename.substr(0, deliPos - 1);
+	}else
+	{
+		return string();
+	}
 }
 
 void write( FileStorage& fs, const std::string&, const RetrievalDatabaseItem& x )
