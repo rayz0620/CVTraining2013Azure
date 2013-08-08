@@ -84,7 +84,7 @@ double SCC::retrievalScore( const InputArray queryFea, const InputArray candidat
 	Mat cbi = cb.inv(DECOMP_SVD);
 	Mat b = cbi * cF;
 	double score = norm(cbi * cF - qF);
-	return score;
+	return score * score;
 }
 
 Mat SCC::L1QP_FeatureSign_Yang( double lambda, const Mat A, const Mat b )

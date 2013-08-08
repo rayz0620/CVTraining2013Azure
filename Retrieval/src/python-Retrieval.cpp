@@ -282,7 +282,7 @@ void py_Retrieval::loadMainDB(string path)
 void py_Retrieval::loadSemanticDB(string path)
 {
 	sdb = new SemanticDatabase();
-	sdb->load(path);
-	sdb->generateTrivialRelationMatrix();
+	sdb->loadSemanticInfo(path);
+	//sdb->generateTrivialRelationMatrix();
     initializeSemantic();
 }

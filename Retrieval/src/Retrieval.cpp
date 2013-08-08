@@ -108,14 +108,19 @@ double Retrieval::TestSingle( const RetrievalDatabaseItem& query  )
 
 double Retrieval::TestAll( const RetrievalDatabase& database )
 {
-	double precision = 0.0;
-
-	for (auto query : database)
+	if (isParallel)
+		return ParrallelTestAll(database);
+	else
 	{
-		precision += TestSingle(query.second);
+		double precision = 0.0;
+	
+		for (auto query : database)
+		{
+			precision += TestSingle(query.second);
+		}
+		precision /= database.size();
+		return precision;
 	}
-	precision /= database.size();
-	return precision;
 }
 
 void Retrieval::loadDefaultConfig()

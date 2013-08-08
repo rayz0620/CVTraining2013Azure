@@ -93,6 +93,6 @@ void SemanticDatabase::loadSemanticInfo(string srcPath)
     relationMatrix = readMatrixFromYML(relPath);
 
     path feaPath(srcPath);
-    feaPath /= "relation.gz";
+    feaPath /= "auxfeat.gz";
     featureMatrix = readMatrixFromYML(feaPath);
 }

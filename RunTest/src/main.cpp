@@ -4,6 +4,7 @@
 #include "Retrieval.h"
 #include "RetrievalDatabase.h"
 #include "SemanticDatabase.h"
+#include <ctime>
 
 using namespace std;
 using namespace cv;
@@ -19,10 +20,11 @@ int main(int argc, char* argv[])
         return 0;
     }else
  	{
- 		string cfg;
- 		string semDB;
- 		string mainDB;
- 		string testDB;
+ 		unsigned int beginTime = time(NULL);
+ 		string cfg(argv[1]);
+ 		string semDB(argv[2]);
+ 		string mainDB(argv[3]);
+ 		string testDB(argv[4]);
 
  		RetrievalDatabase query;
  	 	SemanticDatabase aux;
@@ -37,6 +39,7 @@ int main(int argc, char* argv[])
  	 	r.RDb(&db);
  	 	r.loadConfigFile(cfg);
  	 	double precision = r.TestAll(query);
+ 	 	printf("Completed in %d seconds\n", (unsigned int)time(NULL) - beginTime);
 		printf("Precision is %lf\n", precision);
 		system("pause");
 		return 0;
