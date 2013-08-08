@@ -121,7 +121,7 @@ void FeatureDatabase::generateSingleDatabaseItem( string imgPath, string featPat
 // 	operator[](imgPath.basename()) = item;
 // 	dbIOMutex.unlock_upgrade();
 
-	saveSingle(item, featPath);
+	saveSingle(item, featPath, ".gz");
 }
 
 FeatureItem FeatureDatabase::calculateItem(Mat img)
@@ -207,7 +207,9 @@ bool FeatureDatabase::randomDictionary( const string featPath, const string dict
 				FeatureItem item;
 				fs[FEA_ITEM_YAML_ELEM_NAME] >> item;
 				shuffleCol(item.feaArr);
-				int numSelectedCol = item.feaArr.cols * percentage;
+				int numSelectedCol = item.feaArr.cols * percentage ;
+				if (numSelectedCol <= 0)
+					numSelectedCol = 1;
 				Mat feaT = item.feaArr.t();
 				allFeature.push_back(feaT.rowRange(0, numSelectedCol));
 				fs.release();

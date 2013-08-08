@@ -144,7 +144,7 @@ string RetrievalDatabase::getClassFromFilename(string filename, string delim)
 	int deliPos = filename.find(delim);
 	if (deliPos < filename.size())
 	{
-		return filename.substr(0, deliPos - 1);
+		return filename.substr(0, deliPos);
 	}else
 	{
 		return string();

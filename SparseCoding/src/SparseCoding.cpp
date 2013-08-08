@@ -70,7 +70,7 @@ vector<Mat> SparseCoding::reg_sparse_coding( const Mat X, int num_bases, const M
 			s >> filename;
 			s.clear();
 
-			saveMatrixToYML(filename, S);
+			//saveMatrixToYML(filename, S);
 
 			double objective = getObj(Xb, B, S, Sigma, beta, gamma);
 			printf("Obj: %lf\n", objective);
@@ -81,7 +81,7 @@ vector<Mat> SparseCoding::reg_sparse_coding( const Mat X, int num_bases, const M
 			s >> filename;
 			s.clear();
 
-			saveMatrixToYML(filename, B);
+			//saveMatrixToYML(filename, B);
 
 			printf("%dth basis learning completed\n", batch + 1);
 
@@ -307,8 +307,8 @@ Mat SparseCoding::l2ls_learn_basis_dual( Mat X, Mat S, int l2norm )
 	param.Xst = XSt;
 	param.trXXt = trXXt;
 
-	saveMatrixToYML("SSt.yml", SSt);
-	saveMatrixToYML("Xst.yml", XSt);
+	//saveMatrixToYML("SSt.yml", SSt);
+	//saveMatrixToYML("Xst.yml", XSt);
 
 	vector<double> result;
 	opt.set_min_objective(fobj_basis_dual, &param);

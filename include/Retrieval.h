@@ -1,10 +1,12 @@
 //#include "retrieval.h"
 #include <boost/thread.hpp>
 #include <boost/threadpool.hpp>
+#include <vector>
 #include "RetrievalDatabase.h"
 #include "SemanticDatabase.h"
-
 #define RETRIVAL_COUNT 50
+
+using namespace std;
 
 struct RetrievalItem {
 	string id;
@@ -17,11 +19,11 @@ struct RetrievalItem {
 	}
 };
 
-class Retrival{
+class Retrieval{
 public:
 	// Constructors
-	Retrival(double g1 = 0.1, double g2 = 0, double b = 1e-5);
-
+	Retrieval(double g1 = 0.1, double g2 = 0, double b = 1e-5);
+	Retrieval(const Retrieval& other);
 	// Functionality Methods
 
 	// Testing Methods
@@ -31,6 +33,9 @@ public:
 	double TestN(const RetrievalDatabase& query , int n = 1, int begin = 0);
 	double ParrallelTestN(const RetrievalDatabase& queries, int n = 1, int begin = 0);
 	double ParrallelTestAll(const RetrievalDatabase& queries);
+
+	// Process Query
+	vector<string> processQuery(Mat queryFea, int topNum);
 
 	// Property Access Methods
 	double Gamma1() const;
@@ -61,7 +66,7 @@ public:
 
 
 
-private:
+protected:
 	// Parameter
 	double gamma1;// = 0.1;
 	double gamma2;// = 0;

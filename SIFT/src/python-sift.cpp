@@ -278,7 +278,10 @@ public:
 		Mat imgM;
 		pyopencv_to(img.ptr(), imgM);
         if (imgM.type() != CV_32F)
+        {
             imgM.convertTo(imgM, CV_32F);
+            imgM = im2double(imgM);
+        }
         printf("Input image: Width %d, Height %d\n", imgM.cols, imgM.rows);
 		FeatureItem item = CalculateSiftDescriptor(imgM, gridSpacing, patchSize, maxImSize, nrml_threshold);
         dict ret;

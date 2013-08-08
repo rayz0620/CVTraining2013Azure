@@ -65,7 +65,6 @@ void LLC::LLCoder::generateLLCSingle( path srcPath, path destPath )
 		fs[FEA_ITEM_YAML_ELEM_NAME] >> feat;
 		Mat llc = LLC_pooling(feat, B, pyramid, knn);
 		saveSingle(llc, destPath, srcPath.filename().string(), "");
-		remove(srcPath);
 		printf("Generated LLC for %s\n", srcPath.stem().string().c_str());
 	}
 }
